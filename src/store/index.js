@@ -18,6 +18,7 @@ export default createStore({
   },
 
   actions: {
+
     async getCharacters({ commit }) {
       try {
         const response = await fetch("https://rickandmortyapi.com/api/character")
@@ -30,8 +31,22 @@ export default createStore({
         console.error(error)
       }
     },
+
     filterByStatus({ commit, state }, status) {
       const results = state.characters.filter(character => character.status.includes(status))
+      commit('setCharacterFilter', results)
+    },
+
+    filterByName({ commit, state }, name) {
+      //pasamos a minuscula el nombre que vamos a pasar
+      const formatName = name.toLowerCase()
+      const results = state.characters.filter(character => {
+        //pasamos a minusculas todos los nombres del arreglo
+        const arrayName = character.name.toLowerCase()
+        //si el arreglo incluye el nombre formateado que le pasamos
+        if (arrayName.includes(formatName)) { return character }
+
+      })
       commit('setCharacterFilter', results)
     }
   },
