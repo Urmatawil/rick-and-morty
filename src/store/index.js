@@ -29,6 +29,10 @@ export default createStore({
       } catch (error) {
         console.error(error)
       }
+    },
+    filterByStatus({ commit, state }, status) {
+      const results = state.characters.filter(character => character.status.includes(status))
+      commit('setCharacterFilter', results)
     }
   },
 
